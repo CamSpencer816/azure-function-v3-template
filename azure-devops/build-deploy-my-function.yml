@@ -30,13 +30,13 @@ stages:
             displayName: ".Net Core CLI: [build]"
             inputs:
               command: "build"
-              projects: "$(workingDirectory)/*.csproj"
-              arguments: --output $(System.DefaultWorkingDirectory)/publish_output --configuration Release
+              projects: "$(Build.SourcesDirectory)/src/**/*.csproj"
+              arguments: --output $(Build.SourcesDirectory)/publish_output --configuration Release
 
           - task: ArchiveFiles@2
-            displayName: "Archive Files: Zip [$(System.DefaultWorkingDirectory)/publish_output]"
+            displayName: "Archive Files: Zip [$(Build.SourcesDirectory/publish_output]"
             inputs:
-              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output"
+              rootFolderOrFile: "$(Build.SourcesDirectory/publish_output"
               includeRootFolder: false
               archiveType: zip
               archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
