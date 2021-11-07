@@ -33,18 +33,26 @@ stages:
               projects: "$(Build.SourcesDirectory)/src/**/*.csproj"
               arguments: --output $(Build.SourcesDirectory)/publish_output --configuration Release
 
+          - task: DotNetCoreCLI@2
+            displayName: ".Net Core CLI: [test]"
+            inputs:
+              command: "test"
+              arguments: '--no-restore --collect:"XPlat Code Coverage"'
+              testRunTitle: "Unit Tests"
+              workingDirectory: "$(Build.SourcesDirectory)/src"
+
           - task: ArchiveFiles@2
             displayName: "Archive Files: [$(Build.SourcesDirectory)/publish_output]"
             inputs:
               rootFolderOrFile: "$(Build.SourcesDirectory)/publish_output"
               includeRootFolder: false
               archiveType: zip
-              archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+              archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildNumber).zip
               replaceExistingArchive: true
 
           - task: PublishBuildArtifacts@1
-            displayName: "Publish Build Artifacts: [$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip]"
+            displayName: "Publish Build Artifacts: [$(Build.ArtifactStagingDirectory)/$(Build.BuildNumber).zip]"
             inputs:
-              PathtoPublish: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip"
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)/$(Build.BuildNumber).zip"
               ArtifactName: "drop"
               publishLocation: "Container"
