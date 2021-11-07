@@ -47,3 +47,13 @@ bld/
 # Microsoft Azure Emulator
 ecf/
 rcf/
+
+# Terraform
+**/.terraform/*
+*tfplan*
+*tfvars*
+**/hashicorp
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
