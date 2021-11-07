@@ -1,0 +1,46 @@
+##########################################################################################################
+# Build a .Net Azure Function and deploy non-PR builds of the [main] branch
+##########################################################################################################
+
+# Automatically trigger a build for a pull request (PR) going INTO these branches
+pr:
+  branches:
+    include:
+      - main
+
+# Trigger a new build when there are pushed changes for these branches (this includes creating a branch)
+trigger:
+  branches:
+    include:
+      - main
+
+# Build Number
+name: $(date:yyyy.M.d)$(rev:.r)
+
+stages:
+  - stage: Build
+    displayName: Build
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: "ubuntu-latest"
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: ".Net Core CLI: [build]"
+            inputs:
+              command: "build"
+              projects: "$(workingDirectory)/*.csproj"
+              arguments: --output $(System.DefaultWorkingDirectory)/publish_output --configuration Release
+
+          - task: ArchiveFiles@2
+            displayName: "Archive Files: Zip [$(System.DefaultWorkingDirectory)/publish_output]"
+            inputs:
+              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output"
+              includeRootFolder: false
+              archiveType: zip
+              archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+              replaceExistingArchive: true
+
+          - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+            artifact: drop
