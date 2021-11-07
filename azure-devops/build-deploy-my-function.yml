@@ -26,6 +26,12 @@ stages:
         pool:
           vmImage: "ubuntu-latest"
         steps:
+          - task: UseDotNet@2
+            displayName: "Use .NET: [SDK 3.1]"
+            inputs:
+              packageType: "sdk"
+              version: "3.1.x"
+
           - task: DotNetCoreCLI@2
             displayName: ".Net Core CLI: [build]"
             inputs:
@@ -40,6 +46,14 @@ stages:
               arguments: '--no-restore --collect:"XPlat Code Coverage"'
               testRunTitle: "Unit Tests"
               workingDirectory: "$(Build.SourcesDirectory)/src"
+
+          # Test results are automatically published but we'll need to expliticlty publish the code coverage
+          - task: PublishCodeCoverageResults@1
+            displayName: "Publish Code Coverage Results: Cobertura Report"
+            inputs:
+              codeCoverageTool: "Cobertura"
+              summaryFileLocation: "$(Agent.TempDirectory)/**/coverage.cobertura.xml"
+              failIfCoverageEmpty: true
 
           - task: ArchiveFiles@2
             displayName: "Archive Files: [$(Build.SourcesDirectory)/publish_output]"
