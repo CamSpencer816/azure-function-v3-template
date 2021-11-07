@@ -9,9 +9,9 @@ namespace MyFunction.Tests
         private readonly ILogger logger = TestFactory.CreateLogger();
 
         [Fact]
-        public async void MyHttpTriggerFunction_Should_Return_SuccessMessage_When_NameIsProvided()
+        public async void MyHttpTriggerFunction_Should_Return_SuccessMessage_When_NameIsValid()
         {
-            var name = "Bill";
+            string name = "Bill";
             var request = TestFactory.CreateHttpRequest("name", name);
             var response = (OkObjectResult)await MyHttpTriggerFunction.Run(request, logger);
             Assert.Equal($"Hello, {name}. This HTTP triggered function executed successfully.", response.Value);
@@ -20,7 +20,16 @@ namespace MyFunction.Tests
         [Fact]
         public async void MyHttpTriggerFunction_Should_Return_DefaultMessage_When_NameIsEmpty()
         {
-            var name = "";
+            string name = string.Empty;
+            var request = TestFactory.CreateHttpRequest("name", name);
+            var response = (OkObjectResult)await MyHttpTriggerFunction.Run(request, logger);
+            Assert.Equal("This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.", response.Value);
+        }
+
+        [Fact]
+        public async void MyHttpTriggerFunction_Should_Return_DefaultMessage_When_NameIsNull()
+        {
+            string name = null;
             var request = TestFactory.CreateHttpRequest("name", name);
             var response = (OkObjectResult)await MyHttpTriggerFunction.Run(request, logger);
             Assert.Equal("This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.", response.Value);
