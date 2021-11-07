@@ -19,6 +19,7 @@ resource "azurerm_function_app" "my_function" {
   }
 
   app_settings = {
-    "FUNCTIONS_WORKER_RUNTIME" = "dotnet",
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.my_function.instrumentation_key
+    "FUNCTIONS_WORKER_RUNTIME"       = "dotnet",
   }
 }
