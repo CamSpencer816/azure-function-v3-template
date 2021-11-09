@@ -70,3 +70,27 @@ stages:
               PathtoPublish: "$(Build.ArtifactStagingDirectory)/$(Build.BuildNumber).zip"
               ArtifactName: "drop"
               publishLocation: "Container"
+
+  - stage: DeployToTest
+    displayName: "Deploy To Test"
+    dependsOn: Build
+    # Deploy all builds of main except for pull request triggers
+    condition: and(succeeded(), and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')))
+    jobs:
+      - deployment: DeployToTest
+        displayName: "Deploy To Test"
+        environment: "test"
+        pool:
+          vmImage: "ubuntu-latest"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureFunctionApp@1
+                  displayName: "Deploy: [${{ variables.FUNCTION_APP_NAME_TEST }}]"
+                  inputs:
+                    azureSubscription: "${{ variables.AZURE_SUBSCRIPTION }}"
+                    appType: "functionApp" # Using Windows since Linux Consumption tier isn't available in [canadacentral]
+                    appName: "${{ variables.FUNCTION_APP_NAME_TEST }}"
+                    deploymentMethod: "auto"
+                    package: "$(Pipeline.Workspace)/drop/$(Build.BuildNumber).zip"
