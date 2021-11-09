@@ -8,8 +8,8 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name  = "cs-terraform-test-rg"
-    storage_account_name = "csterraformtestsa"
+    resource_group_name  = "prefx-terraform-test-rg"
+    storage_account_name = "prefxterraformtestsa"
     container_name       = "terraform-state"
     key                  = "my-function.test"
   }

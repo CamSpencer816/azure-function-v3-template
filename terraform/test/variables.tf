@@ -24,6 +24,6 @@ variable "service_name_short" {
 
 variable "service_prefix" {
   type        = string
-  default     = "cs"
+  default     = "prefx"
   description = "The prefix of the service these resources belong to."
 }

@@ -17,6 +17,11 @@ trigger:
 # Build Number
 name: $(date:yyyy.M.d)$(rev:.r)
 
+variables:
+  FUNCTION_APP_NAME_PROD: "prefx-my-function-prod-func"
+  FUNCTION_APP_NAME_TEST: "prefx-my-function-test-func"
+  AZURE_SUBSCRIPTION: "Pay-As-You-Go" # Replace with your Azure Subscription/Service Connection
+
 stages:
   - stage: Build
     displayName: Build

@@ -8,8 +8,8 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name  = "cs-terraform-prod-rg"
-    storage_account_name = "csterraformprodsa"
+    resource_group_name  = "prefx-terraform-prod-rg"
+    storage_account_name = "prefxterraformprodsa"
     container_name       = "my-function"
     key                  = "tfstate.prod"
   }
