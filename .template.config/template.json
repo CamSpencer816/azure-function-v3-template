@@ -1,0 +1,48 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Cam Spencer",
+    "classifications": [ "Function" ],
+    "identity": "CS.AzureFunction.v3",
+    "name": "Azure Function v3 (Cam Spencer)",
+    "shortName": "funcv3",
+    "sourceName": "MyFunction",
+    "preferNameDirectory": true,
+    "symbols":{ 
+      "httpTriggerFunctionName": { 
+        "type": "parameter",
+        "description": "The name of the included HTTP Trigger Function.",
+        "defaultValue": "MyHttpTriggerFunction",
+        "replaces":"MyHttpTriggerFunction" 
+      },
+      "includeAzureDevOps":{ 
+        "type": "parameter", 
+        "description": "Adds a folder named [azure-devops] with some default pipelines for building/deploying",
+        "dataType":"bool", 
+        "defaultValue": "true" 
+      },
+      "includeTerraform":{ 
+        "type": "parameter",
+        "description": "Adds a folder named [terraform] with Terraform scripts to generate Azure resources to host an Azure Function",
+        "dataType":"bool", 
+        "defaultValue": "true" 
+      }
+    },
+    "sources": [
+      {
+        "modifiers": [
+          {
+            "condition": "(!includeAzureDevOps)", 
+            "exclude": [
+              "**/azure-devops/**"
+            ]
+          },
+          {
+            "condition": "(!includeTerraform)", 
+            "exclude": [
+              "**/terraform/**"
+            ]
+          }
+        ]
+      }
+    ]
+  }
