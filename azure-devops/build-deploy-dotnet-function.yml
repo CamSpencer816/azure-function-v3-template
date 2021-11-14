@@ -95,7 +95,7 @@ stages:
                   displayName: "Deploy: [${{ variables.FUNCTION_APP_NAME_TEST }}]"
                   inputs:
                     azureSubscription: "${{ variables.AZURE_SUBSCRIPTION }}"
-                    appType: "functionApp" # Using Windows since Linux Consumption tier isn't available in [canadacentral]
+                    appType: "functionApp" # Using Windows since Linux Consumption tier isn't available in [Canada Central]
                     appName: "${{ variables.FUNCTION_APP_NAME_TEST }}"
                     deploymentMethod: "auto"
                     package: "$(Pipeline.Workspace)/drop/$(Build.BuildNumber).zip"

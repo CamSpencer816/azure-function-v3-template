@@ -12,19 +12,49 @@
         "type": "parameter",
         "description": "The name of the included HTTP Trigger Function.",
         "defaultValue": "MyHttpTriggerFunction",
-        "replaces":"MyHttpTriggerFunction" 
+        "replaces":"MyHttpTriggerFunction"
       },
       "includeAzureDevOps":{ 
         "type": "parameter", 
         "description": "Adds a folder named [azure-devops] with some default pipelines for building/deploying",
         "dataType":"bool", 
-        "defaultValue": "true" 
+        "defaultValue": "true"
       },
       "includeTerraform":{ 
         "type": "parameter",
         "description": "Adds a folder named [terraform] with Terraform scripts to generate Azure resources to host an Azure Function",
         "dataType":"bool", 
-        "defaultValue": "true" 
+        "defaultValue": "true"
+      },
+      "functionServiceAzureSubscription": { 
+        "type": "parameter",
+        "description": "The name of the Azure Subscription to host the Function's infrastructure.",
+        "defaultValue": "Pay-As-You-Go",
+        "replaces":"Pay-As-You-Go"
+      },
+      "functionServiceLocation": { 
+        "type": "parameter",
+        "description": "The Azure location of the service that the Function app provides.",
+        "defaultValue": "canadacentral",
+        "replaces":"canadacentral"
+      },
+      "functionServiceName": { 
+        "type": "parameter",
+        "description": "The name of the service that the Function app provides.",
+        "defaultValue": "my-function",
+        "replaces":"my-function"
+      },
+      "functionServiceNameShort": { 
+        "type": "parameter",
+        "description": "The short name of the service that the Function app provides. This is used in cases where infrastructure has character limits (Storage Accounts, Key Vault, etc.)",
+        "defaultValue": "myfunc",
+        "replaces":"myfunc"
+      },
+      "functionServicePrefix": { 
+        "type": "parameter",
+        "description": "The prefix of the service that the Function app provides. This helps reduce naming collisions for similarly named resources.",
+        "defaultValue": "prefx",
+        "replaces":"prefx"
       }
     },
     "sources": [
