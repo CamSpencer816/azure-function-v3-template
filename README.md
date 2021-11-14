@@ -11,7 +11,7 @@ A dotnet template to create a v3 Azure Function including pipelines for Azure De
 
 ## Azure Function
 
-TODO
+The Function contains a single `HTTP Trigger` function which accepts simple `string` input and returns a new `string` with based on the input. Since the Function has `local.settings.json` under `.gitignore`, you'll want to make a copy of the `example.local.settings.json` file and rename it to `local.settings.json` to add your own configuration as needed. A small set of unit tests are included to validate positive and negative cases of running the Function.
 
 ## Creating infrastructure with Terraform
 
@@ -23,4 +23,6 @@ When you're ready to create your resources you can modify the values in `variabl
 
 ## Continuous Integration / Continuous Delivery
 
-TODO
+The `azure-devop` folder contains a `.yml` pipeline that can be used when creating a new Azure DevOps `Pipeline`. The name of the Function's and their `Azure Subscription` (which is really the name of your Azure DevOps `Service Connection`) are configured in a `variables` block. You can modify the block to match the names of your resources.
+
+The pipeline is configured to run two stage: `Build` and `DeployToTest`. All pushed commits to the `main` branch, as well as any pull requests going into the `main` branch will trigger a new run of the pipeline. The `Build` stage will build the Function app, run unit tests, and then publish the artifacts. The `DeployToTest` stage will run after a successful non-PR build of the `main` branch and will get the artifacts and deploy them to the `test` version of the Function.
